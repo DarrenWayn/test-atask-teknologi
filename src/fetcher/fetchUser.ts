@@ -1,9 +1,8 @@
-import customAxios from "../library/axios";
-import { SearchResult } from "../types/search-results";
+import customAxios, { BASE_URL } from "../library/axios";
 
-const fetchUser = (search: SearchResult) => {
+const fetchUser = (search: string) => {
   try {
-    return customAxios({ url: `?q=${search}&per_page=20` , method: "get" });
+    return customAxios.get(`${BASE_URL}?q=${search}`);
   } catch (err) {
     throw err;
   }

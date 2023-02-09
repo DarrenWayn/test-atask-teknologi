@@ -1,21 +1,34 @@
 import React, { useState } from "react";
+import useGetRepos from "./hooks/useGetRepos";
 import useGetUser from "./hooks/useGetUser";
+
+import { BsFillStarFill } from "react-icons/bs";
 
 function App() {
   const [search, setSearch] = useState("");
-  const [searchRes, setSearchRes] = useState("");
-  const [clicked, setClicked] = useState(false);
+  const [searchRes, setSearchRes] = useState<string>("");
+
+  const [clicked, setClicked] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState("");
 
   const { data: users } = useGetUser(searchRes);
+  const { data: repos } = useGetRepos(currentUser);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchRes(search);
   };
 
+  const handleShowRepos = (user: any) => {
+    setCurrentUser(user.login);
+    setClicked(!clicked);
+  };
+
+  console.log(repos);
+
   return (
     <div className="App">
-      <div className="w-[50%] mx-auto mt-10 border border-gray-200 bg-blend-soft-light p-7">
+      <div className="xl:w-[50%] sm:w-full mx-auto mt-10 border border-gray-200 bg-blend-soft-light p-7">
         <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
             placeholder="Enter username"
@@ -37,21 +50,28 @@ function App() {
                 <div
                   className="bg-gray-200 border border-gray-200"
                   key={item?.login}
-                  onClick={() => setClicked(!clicked)}
+                  onClick={handleShowRepos.bind(this, item)}
                 >
-                  <p className="p-3 mb-3 bg-white">{item?.login}</p>
-                  {clicked ? (
-                    <div className="bg-red-200 p-3 pb-7 ml-5 mt-3 flex justify-between">
-                      <div className="sub-repo">
-                        <h1>Title Repo</h1>
-                        <h2>Desc Repo</h2>
-                      </div>
-                      <div className="flex gap-4">
-                        <p>12</p>
-                        <p>S</p>
-                      </div>
-                    </div>
-                  ) : null}
+                  <p className="p-3  bg-white">{item?.login}</p>
+                  {clicked && currentUser === item.login
+                    ? repos?.data
+                        .filter((repo: any) => repo.owner.login === currentUser)
+                        .slice(0, 3)
+                        .map((repo: any) => (
+                          <React.Fragment key={repo.id}>
+                            <div className="p-3 pb-7 ml-5 mb-3  flex justify-between">
+                              <div className="sub-repo">
+                                <h1>{repo.full_name}</h1>
+                                <h2>{repo.description}</h2>
+                              </div>
+                              <div className="flex gap-4">
+                                <p>{repo.stargazers_count}</p>
+                                <BsFillStarFill />
+                              </div>
+                            </div>
+                          </React.Fragment>
+                        ))
+                    : null}
                 </div>
               ))}
             </div>
