@@ -1,63 +1,23 @@
 import React, { useState } from "react";
-import { SearchResult } from "./types/search-results";
-import { User } from "./types/User";
+import useGetUser from "./hooks/useGetUser";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-
   const [search, setSearch] = useState("");
-  const [result, setResult] = useState<SearchResult | null>(null);
   const [clicked, setClicked] = useState(false);
+  const [results, setResults] = useState([]);
+  const { data: user, isLoading } = useGetUser("darren");
 
-  const onNow = result?.users.map((item: User) => item?.repos_url);
-  console.log(onNow);
+  if (isLoading) return <div>Loading ....</div>;
 
-  const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (search) {
-      setIsLoading(true);
-      fetch(`https://api.github.com/search/users?q=${search}&per_page=20`)
-        .then((res) => res.json())
-        .then((data) => {
-          const users: User[] = data.items;
-          const searchRes: SearchResult = {
-            search: search,
-            users: users,
-          };
-          setResult(searchRes);
-          setSearch("");
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+    setResults(user?.data.items);
+    setSearch("");
   };
-
-  const showReponsitory = () => {
-    if (clicked) {
-      setIsLoading(true);
-      fetch(`https://api.github.com/search/users/${onNow}/repo`)
-        .then((res) => res.json())
-        .then((data) => {
-          const users: User[] = data.items;
-          const searchRes: SearchResult = {
-            search: search,
-            users: users,
-          };
-          setResult(searchRes);
-          setSearch("");
-          setClicked(true);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-  };
-
   return (
     <div className="App">
       <div className="w-[50%] mx-auto mt-10 border border-gray-200 bg-blend-soft-light p-7">
-        <form className="flex flex-col" onSubmit={onSearchSubmit}>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
           <input
             placeholder="Enter username"
             value={search}
@@ -74,9 +34,10 @@ function App() {
           <p className="mb-6">Showing users for "{search}"</p>
           <div className="users cursor-pointer">
             <div className="results">
-              {result?.users.map((item: User) => (
+              {results.map((item: any) => (
                 <div
                   className="bg-gray-200 border border-gray-200"
+                  key={item?.login}
                   onClick={() => setClicked(!clicked)}
                 >
                   <p className="p-3 mb-3 bg-white">{item?.login}</p>

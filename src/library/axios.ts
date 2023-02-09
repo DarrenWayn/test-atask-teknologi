@@ -1,7 +1,8 @@
 import Axios, { AxiosError, AxiosResponse } from "axios";
 
+export const BASE_URL = "https://api.github.com/search/users";
+
 const customAxios = Axios.create({
-  baseURL: "https://api.github.com/search/users",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
