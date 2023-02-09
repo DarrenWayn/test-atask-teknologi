@@ -1,6 +1,7 @@
 import Axios, { AxiosError, AxiosResponse } from "axios";
 
 export const BASE_URL = "https://api.github.com/search/users";
+export const BASE_URL_REPOS = "https://api.github.com/users";
 
 const customAxios = Axios.create({
   headers: {

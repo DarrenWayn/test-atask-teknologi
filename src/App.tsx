@@ -3,17 +3,16 @@ import useGetUser from "./hooks/useGetUser";
 
 function App() {
   const [search, setSearch] = useState("");
+  const [searchRes, setSearchRes] = useState("");
   const [clicked, setClicked] = useState(false);
-  const [results, setResults] = useState([]);
-  const { data: user, isLoading } = useGetUser("darren");
 
-  if (isLoading) return <div>Loading ....</div>;
+  const { data: users } = useGetUser(searchRes);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setResults(user?.data.items);
-    setSearch("");
+    setSearchRes(search);
   };
+
   return (
     <div className="App">
       <div className="w-[50%] mx-auto mt-10 border border-gray-200 bg-blend-soft-light p-7">
@@ -34,7 +33,7 @@ function App() {
           <p className="mb-6">Showing users for "{search}"</p>
           <div className="users cursor-pointer">
             <div className="results">
-              {results.map((item: any) => (
+              {users?.data?.items.map((item: any) => (
                 <div
                   className="bg-gray-200 border border-gray-200"
                   key={item?.login}

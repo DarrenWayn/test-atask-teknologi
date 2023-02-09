@@ -9,6 +9,14 @@ const fetchUser = (search: string) => {
   }
 };
 
+const fetchRepos = (search: string) => {
+  try {
+    return customAxios.get(`${BASE_URL}?q=${search}`);
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const useGetUser = (search: string) => {
   return useQuery(`get-user-${search}`, () => fetchUser(search));
 };
