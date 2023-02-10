@@ -14,6 +14,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchRes(search);
+    setSearch("");
   };
 
   return (

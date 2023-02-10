@@ -21,11 +21,7 @@ function App() {
     isError,
   } = useGetUser(searchRes);
 
-  const {
-    data: repos,
-    isLoading: reposLoading,
-    isError: reposIsError,
-  } = useGetRepos(currentUser);
+  const { data: repos, isLoading: reposLoading } = useGetRepos(currentUser);
 
   return (
     <div className="App">
@@ -38,6 +34,7 @@ function App() {
         <div className="mt-4 text-xl">
           <p className="mb-6">Showing users for "{search}"</p>{" "}
           <div className="results">
+            {userLoading && <p>Loading ...</p>}
             {isError && (
               <h2>Sorry there's a hit API Limit, Try again in later</h2>
             )}
@@ -69,10 +66,10 @@ function App() {
                       .slice(0, 3)
                       .map((repo: Repository) => (
                         <React.Fragment key={repo.id}>
-                          <div className="p-3 pb-7 ml-5 my-3 flex justify-between bg-gray-400">
+                          <div className="p-3 pb-7 ml-5 my-3 flex justify-between bg-gray-300">
                             <div className="sub-repo">
-                              <h1 className="font-bold mb-3">
-                                {repo.full_name}
+                              <h1 className="font-bold mb-3 cursor-pointer">
+                                <a href={repo.html_url}>{repo.full_name}</a>
                               </h1>
                               <h2>{repo.description}</h2>
                             </div>
