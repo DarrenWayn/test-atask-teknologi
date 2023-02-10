@@ -39,14 +39,14 @@ function App() {
         />
         <div className="mt-4 text-xl">
           <p className="mb-6">Showing users for "{searchRes}"</p>
-          <div className="results">
+          <div className="user-Container">
             {userLoading && <p>Loading ...</p>}
             {isError && (
               <h2>Sorry there's a hit API Limit, Try again in later</h2>
             )}
             {users?.data?.items.map((item: Owner, index: number) => (
               <UserCard
-                key={index}
+                id={index}
                 setCurrentUser={setCurrentUser}
                 user={item?.login}
                 setClicked={setClicked}

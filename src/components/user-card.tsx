@@ -1,7 +1,7 @@
 import React from "react";
 
 type UserCard = {
-  key: number;
+  id: number;
   setClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
   clicked: boolean;
@@ -10,7 +10,7 @@ type UserCard = {
 };
 
 const UserCard: React.FC<UserCard> = ({
-  key,
+  id,
   setClicked,
   setCurrentUser,
   clicked,
@@ -19,7 +19,7 @@ const UserCard: React.FC<UserCard> = ({
 }) => (
   <div
     className="bg-gray-200 border border-gray-200"
-    key={key}
+    key={id}
     onClick={() => {
       setCurrentUser(user);
       setClicked(!clicked);
