@@ -100,4 +100,5 @@ export type Repository = {
   open_issues: number;
   watchers: number;
   default_branch: string;
+  filter: any;
 };

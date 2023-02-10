@@ -6,7 +6,6 @@ import { BsFillStarFill } from "react-icons/bs";
 import { BsChevronDown } from "react-icons/bs";
 import { BsChevronUp } from "react-icons/bs";
 import { Owner, Repository } from "./types/repository";
-import { User } from "./types/user";
 import SearchForm from "./components/search-form";
 
 function App() {
@@ -23,11 +22,7 @@ function App() {
   } = useGetUser(searchRes);
 
   const { data: repos } = useGetRepos(currentUser);
-
-  const handleShowRepos: (user: User) => void = (user) => {
-    setCurrentUser(user.login);
-    setClicked(!clicked);
-  };
+  /* const repositories: Repository[] = repos?.data as any; */
 
   return (
     <div className="App">
@@ -48,9 +43,12 @@ function App() {
               <div
                 className="bg-gray-200 border border-gray-200"
                 key={item?.login}
-                onClick={handleShowRepos.bind(this, item)}
+                onClick={() => {
+                  setCurrentUser(item?.login);
+                  setClicked(!clicked);
+                }}
               >
-                <p className="p-3  bg-white flex justify-between">
+                <p className="p-3  bg-white flex justify-between cursor-pointer">
                   {item?.login} {clicked ? <BsChevronDown /> : <BsChevronUp />}
                 </p>
 
