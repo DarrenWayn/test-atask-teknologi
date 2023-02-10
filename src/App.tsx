@@ -71,7 +71,9 @@ function App() {
                         <React.Fragment key={repo.id}>
                           <div className="p-3 pb-7 ml-5 my-3 flex justify-between bg-gray-400">
                             <div className="sub-repo">
-                              <h1>{repo.full_name}</h1>
+                              <h1 className="font-bold mb-3">
+                                {repo.full_name}
+                              </h1>
                               <h2>{repo.description}</h2>
                             </div>
                             <div className="flex gap-4">
