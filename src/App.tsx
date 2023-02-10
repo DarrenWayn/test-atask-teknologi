@@ -44,9 +44,9 @@ function App() {
             {isError && (
               <h2>Sorry there's a hit API Limit, Try again in later</h2>
             )}
-            {users?.data?.items.map((item: Owner) => (
+            {users?.data?.items.map((item: Owner, index: number) => (
               <UserCard
-                key={item?.login}
+                key={index}
                 setCurrentUser={setCurrentUser}
                 user={item?.login}
                 setClicked={setClicked}

@@ -1,7 +1,7 @@
 import React from "react";
 
 type UserCard = {
-  key: string;
+  key: number;
   setClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<string>>;
   clicked: boolean;
