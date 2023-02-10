@@ -17,6 +17,7 @@ export type Owner = {
   received_events_url: string;
   type: string;
   site_admin: boolean;
+  items: Array;
 };
 
 export type Repository = {

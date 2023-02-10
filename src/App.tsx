@@ -3,78 +3,82 @@ import useGetRepos from "./hooks/useGetRepos";
 import useGetUser from "./hooks/useGetUser";
 
 import { BsFillStarFill } from "react-icons/bs";
+import { BsChevronDown } from "react-icons/bs";
+import { BsChevronUp } from "react-icons/bs";
+import { Owner, Repository } from "./types/repository";
+import { User } from "./types/user";
+import SearchForm from "./components/search-form";
 
 function App() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const [searchRes, setSearchRes] = useState<string>("");
 
   const [clicked, setClicked] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState<string>("");
 
-  const { data: users } = useGetUser(searchRes);
+  const {
+    data: users,
+    isLoading: userLoading,
+    isError,
+  } = useGetUser(searchRes);
+
   const { data: repos } = useGetRepos(currentUser);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSearchRes(search);
-  };
-
-  const handleShowRepos = (user: any) => {
+  const handleShowRepos: (user: User) => void = (user) => {
     setCurrentUser(user.login);
     setClicked(!clicked);
   };
 
-  console.log(repos);
-
   return (
     <div className="App">
       <div className="xl:w-[50%] sm:w-full mx-auto mt-10 border border-gray-200 bg-blend-soft-light p-7">
-        <form className="flex flex-col" onSubmit={handleSubmit}>
-          <input
-            placeholder="Enter username"
-            value={search}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearch(e.target.value)
-            }
-            className="p-3 mb-4 bg-gray-200 border border-gray-200"
-          />
-          <button type="submit" className="text-white bg-blue-400 p-3">
-            Search
-          </button>
-        </form>
+        <SearchForm
+          search={search}
+          setSearch={setSearch}
+          setSearchRes={setSearchRes}
+        />
         <div className="mt-4 text-xl">
-          <p className="mb-6">Showing users for "{search}"</p>
-          <div className="users cursor-pointer">
-            <div className="results">
-              {users?.data?.items.map((item: any) => (
-                <div
-                  className="bg-gray-200 border border-gray-200"
-                  key={item?.login}
-                  onClick={handleShowRepos.bind(this, item)}
-                >
-                  <p className="p-3  bg-white">{item?.login}</p>
-                  {clicked && currentUser === item.login
-                    ? repos?.data
-                        .filter((repo: any) => repo.owner.login === currentUser)
-                        .slice(0, 3)
-                        .map((repo: any) => (
-                          <React.Fragment key={repo.id}>
-                            <div className="p-3 pb-7 ml-5 mb-3  flex justify-between">
-                              <div className="sub-repo">
-                                <h1>{repo.full_name}</h1>
-                                <h2>{repo.description}</h2>
-                              </div>
-                              <div className="flex gap-4">
-                                <p>{repo.stargazers_count}</p>
-                                <BsFillStarFill />
-                              </div>
+          <p className="mb-6">Showing users for "{search}"</p>{" "}
+          <div className="results">
+            {userLoading && <p>Loading ...</p>}
+            {isError && (
+              <h2>Sorry there's a hit API Limit, Try again in an hour</h2>
+            )}
+            {users?.data?.items.map((item: Owner) => (
+              <div
+                className="bg-gray-200 border border-gray-200"
+                key={item?.login}
+                onClick={handleShowRepos.bind(this, item)}
+              >
+                <p className="p-3  bg-white flex justify-between">
+                  {item?.login} {clicked ? <BsChevronDown /> : <BsChevronUp />}
+                </p>
+
+                {clicked && currentUser === item.login
+                  ? repos?.data
+                      .filter(
+                        (repo: Repository) => repo.owner.login === currentUser
+                      )
+                      .slice(0, 3)
+                      .map((repo: Repository) => (
+                        <React.Fragment key={repo.id}>
+                          <div className="p-3 pb-7 ml-5 my-3 flex justify-between bg-gray-400">
+                            <div className="sub-repo">
+                              <h1>{repo.full_name}</h1>
+                              <h2>{repo.description}</h2>
                             </div>
-                          </React.Fragment>
-                        ))
-                    : null}
-                </div>
-              ))}
-            </div>
+                            <div className="flex gap-4">
+                              <BsFillStarFill />
+                              <p className="mt-[-3px]">
+                                {repo.stargazers_count}
+                              </p>
+                            </div>
+                          </div>
+                        </React.Fragment>
+                      ))
+                  : null}
+              </div>
+            ))}
           </div>
         </div>
       </div>
