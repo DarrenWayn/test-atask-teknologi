@@ -22,7 +22,6 @@ function App() {
   } = useGetUser(searchRes);
 
   const { data: repos } = useGetRepos(currentUser);
-  /* const repositories: Repository[] = repos?.data as any; */
 
   return (
     <div className="App">
@@ -37,7 +36,7 @@ function App() {
           <div className="results">
             {userLoading && <p>Loading ...</p>}
             {isError && (
-              <h2>Sorry there's a hit API Limit, Try again in an hour</h2>
+              <h2>Sorry there's a hit API Limit, Try again in an later</h2>
             )}
             {users?.data?.items.map((item: Owner) => (
               <div
