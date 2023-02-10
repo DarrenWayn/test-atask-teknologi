@@ -21,7 +21,7 @@ function App() {
     isError,
   } = useGetUser(searchRes);
 
-  const { data: repos } = useGetRepos(currentUser);
+  const { data: repos, isError: reposIsError } = useGetRepos(currentUser);
 
   return (
     <div className="App">
@@ -55,7 +55,9 @@ function App() {
                     <BsChevronUp />
                   )}
                 </p>
-
+                {reposIsError && (
+                  <h2>Sorry there's a hit API Limit, Try again in an later</h2>
+                )}
                 {clicked && currentUser === item.login
                   ? repos?.data
                       .filter(
