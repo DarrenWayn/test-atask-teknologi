@@ -3,22 +3,16 @@ import React from "react";
 type SearchFormProps = {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  setSearchRes: React.Dispatch<React.SetStateAction<string>>;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 const SearchForm: React.FC<SearchFormProps> = ({
   search,
   setSearch,
-  setSearchRes,
+  onSubmit,
 }) => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSearchRes(search);
-    setSearch("");
-  };
-
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
+    <form className="flex flex-col" onSubmit={onSubmit}>
       <input
         placeholder="Enter username"
         value={search}

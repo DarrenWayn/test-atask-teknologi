@@ -23,16 +23,22 @@ function App() {
 
   const { data: repos, isLoading: reposLoading } = useGetRepos(currentUser);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSearchRes(search);
+    setSearch("");
+  };
+
   return (
     <div className="App">
       <div className="xl:w-[50%] sm:w-full mx-auto mt-10 border border-gray-200 bg-blend-soft-light p-7">
         <SearchForm
           search={search}
           setSearch={setSearch}
-          setSearchRes={setSearchRes}
+          onSubmit={handleSubmit}
         />
         <div className="mt-4 text-xl">
-          <p className="mb-6">Showing users for "{search}"</p>
+          <p className="mb-6">Showing users for "{searchRes}"</p>
           <div className="results">
             {userLoading && <p>Loading ...</p>}
             {isError && (
