@@ -67,7 +67,7 @@ function App() {
                       .map((repo: Repository) => (
                         <React.Fragment key={repo.id}>
                           <div className="p-3 pb-7 ml-5 my-3 flex justify-between bg-gray-300">
-                            <div className="sub-repo">
+                            <div className="w-[75%]">
                               <h1 className="font-bold mb-3 cursor-pointer">
                                 <a href={repo.html_url}>{repo.full_name}</a>
                               </h1>
