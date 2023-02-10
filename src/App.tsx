@@ -36,7 +36,7 @@ function App() {
           <div className="results">
             {userLoading && <p>Loading ...</p>}
             {isError && (
-              <h2>Sorry there's a hit API Limit, Try again in an later</h2>
+              <h2>Sorry there's a hit API Limit, Try again in later</h2>
             )}
             {users?.data?.items.map((item: Owner) => (
               <div
@@ -56,7 +56,7 @@ function App() {
                   )}
                 </p>
                 {reposIsError && (
-                  <h2>Sorry there's a hit API Limit, Try again in an later</h2>
+                  <h2>Sorry there's a hit API Limit, Try again in later</h2>
                 )}
                 {clicked && currentUser === item.login
                   ? repos?.data
