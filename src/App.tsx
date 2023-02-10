@@ -48,7 +48,12 @@ function App() {
                 }}
               >
                 <p className="p-3  bg-white flex justify-between cursor-pointer">
-                  {item?.login} {clicked ? <BsChevronDown /> : <BsChevronUp />}
+                  {item?.login}{" "}
+                  {clicked && currentUser === item.login ? (
+                    <BsChevronDown />
+                  ) : (
+                    <BsChevronUp />
+                  )}
                 </p>
 
                 {clicked && currentUser === item.login
