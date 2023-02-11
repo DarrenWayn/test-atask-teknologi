@@ -1,16 +1,13 @@
 import React from "react";
+import useSearchStore from "../stores/useSearchStore";
 
 type SearchFormProps = {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const SearchForm: React.FC<SearchFormProps> = ({
-  search,
-  setSearch,
-  onSubmit,
-}) => {
+const SearchForm: React.FC<SearchFormProps> = ({ onSubmit }) => {
+  const { search, setSearch } = useSearchStore();
+
   return (
     <form className="flex flex-col" onSubmit={onSubmit}>
       <input
