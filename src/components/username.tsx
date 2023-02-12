@@ -8,7 +8,7 @@ type Username = {
   clicked: boolean;
 };
 const Username: React.FC<Username> = ({ user, currentUser, clicked }) => (
-  <p className="p-3  bg-white flex justify-between cursor-pointer">
+  <p className="p-3 bg-white flex justify-between cursor-pointer">
     {user}
     {clicked && currentUser === user ? <BsChevronDown /> : <BsChevronUp />}
   </p>

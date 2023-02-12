@@ -15,7 +15,7 @@ const Repositories: React.FC<RepositoriesProps> = ({ repos }) => {
           className="p-3 pb-7 ml-5 my-3 flex justify-between bg-gray-300"
         >
           <div className="w-[75%]">
-            <h1 className="font-bold mb-3 cursor-pointer">
+            <h1 className="font-bold mb-3 cursor-pointer overflow-hidden">
               <a href={repo.html_url}>{repo.full_name}</a>
             </h1>
             <h2>{repo.description}</h2>
